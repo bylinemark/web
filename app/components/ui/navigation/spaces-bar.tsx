@@ -3,13 +3,15 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import ClientTime from './client-time';
+import { LanguageSwitcherCustom } from './language-switcher';
 
 export default function SpacesBar () {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <div>
-            <motion.div className="fixed top-4 right-4 z-40" 
+        <div className="fixed flex gap-4 items-center justify-center top-4 right-4 z-40" >
+            <motion.div
+            className="relative"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             >
@@ -20,6 +22,7 @@ export default function SpacesBar () {
                 </div>
                 <motion.div className="absolute top-0 left-0 -z-1 h-full w-full rounded-sm bg-white/5 pointer-events-none" animate={{ opacity: isHovered ? 1 : 0 }} transition={{ duration: 0.15, ease: 'linear' }} />
             </motion.div>
+            <LanguageSwitcherCustom />
         </div>
     )
 }

@@ -1,0 +1,31 @@
+{
+  "navigation": {
+    "work": "Práce",
+    "about": "O nás",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "title": "Vítejte v Linemark",
+    "subtitle": "Studio Spolupráce"
+  },
+  "contact": {
+    "title": "Kontaktujte nás",
+    "name": "Jméno",
+    "namePlaceholder": "Vaše jméno",
+    "email": "E-mail",
+    "emailPlaceholder": "vase.email@priklad.com",
+    "message": "Zpráva",
+    "messagePlaceholder": "Vaše zpráva zde...",
+    "submit": "Odeslat zprávu",
+    "sending": "Odesílání...",
+    "successMessage": "E-mail byl úspěšně odeslán! Brzy se vám ozvu.",
+    "errorMessage": "Chyba při odesílání e-mailu. Prosím zkuste to znovu."
+  },
+  "language": {
+    "select": "Jazyk",
+    "english": "English",
+    "czech": "Čeština",
+    "german": "Deutsch",
+    "korean": "한국어"
+  }
+}
