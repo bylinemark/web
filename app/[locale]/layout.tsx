@@ -37,7 +37,7 @@ export default async function LocaleLayout({
   const { locale } = await params;
 
   // Validate that the incoming locale is valid
-  if (!locales.includes(locale as any)) {
+  if (!locales.includes(locale as never)) {
     notFound();
   }
 
@@ -47,8 +47,8 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${notoSans.variable} ${notoSansMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider messages={messages}>
-          <Navigation locale={locale} />
-          {children}
+            <Navigation locale={locale} />
+            {children}
         </NextIntlClientProvider>
       </body>
     </html>

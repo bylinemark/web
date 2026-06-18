@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import {usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
 import { locales, type Locale } from '@/i18n/config';
 
 export function LanguageSwitcherCustom() {
@@ -13,6 +13,8 @@ export function LanguageSwitcherCustom() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const getCurrentLocale = (): Locale => {
     const parts = pathname.split('/').filter(Boolean);
@@ -24,7 +26,7 @@ export function LanguageSwitcherCustom() {
 
     return 'en';
   };
-  
+
   const currentLocale = getCurrentLocale();
 
   const languageLabels: Record<Locale, string> = {
@@ -42,6 +44,7 @@ export function LanguageSwitcherCustom() {
     router.push(`/${newLocale}/${pathWithoutLocale}`);
   };
 
+  // Click-outside handler
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -56,8 +59,36 @@ export function LanguageSwitcherCustom() {
     }
   }, [isOpen]);
 
+  // Hover overlay animation
+  useEffect(() => {
+    if (!overlayRef.current) return;
+    gsap.to(overlayRef.current, { opacity: isHovered ? 1 : 0, duration: 0.15, ease: 'none' });
+  }, [isHovered]);
+
+  // Dropdown enter/exit animation
+  useEffect(() => {
+    const el = dropdownRef.current;
+    if (!el) return;
+
+    if (isOpen) {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: -8 },
+        { opacity: 1, y: 0, duration: 0.15, ease: 'none', display: 'block' }
+      );
+    } else {
+      gsap.to(el, {
+        opacity: 0,
+        y: -8,
+        duration: 0.15,
+        ease: 'none',
+        onComplete: () => gsap.set(el, { display: 'none' }),
+      });
+    }
+  }, [isOpen]);
+
   return (
-    <motion.div
+    <div
       ref={containerRef}
       className="relative"
       onMouseEnter={() => {
@@ -73,7 +104,7 @@ export function LanguageSwitcherCustom() {
         onClick={() => setIsOpen(!isOpen)}
         className="h-14 w-auto rounded-sm cursor-pointer"
       >
-        <span className="flex items-center justify-center gap-x-2 px-4 h-full w-full">
+        <span className="flex items-center justify-center gap-x-2 px-6 h-full w-full">
           <span className="block">
             <span className="font-mono text-sm leading-4 tracking-normal uppercase relative">
               {languageCodes[currentLocale]}
@@ -82,38 +113,32 @@ export function LanguageSwitcherCustom() {
         </span>
       </button>
 
-      <motion.div
+      {/* Hover overlay */}
+      <div
+        ref={overlayRef}
         className="absolute top-0 left-0 -z-1 h-full w-full rounded-sm bg-white/5 pointer-events-none"
-        animate={{ opacity: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.15, ease: 'linear' }}
+        style={{ opacity: 0 }}
       />
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="absolute top-full right-0 mt-2 w-full min-w-max rounded-sm bg-white/5 p-2 overflow-hidden z-50"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.15, ease: 'linear' }}
+      {/* Dropdown */}
+      <div
+        ref={dropdownRef}
+        className="absolute top-full right-0 mt-2 w-full min-w-max rounded-sm bg-white/5 p-2 overflow-hidden z-50"
+        style={{ display: 'none', opacity: 0 }}
+      >
+        {locales.map((locale) => (
+          <button
+            key={locale}
+            onClick={() => handleLanguageChange(locale)}
+            className="w-full px-2 py-2 text-left cursor-pointer relative group disabled:cursor-default disabled:opacity-50 hover:bg-white/5 transition-colors duration-150"
+            disabled={locale === currentLocale}
           >
-            {locales.map((locale) => (
-              <motion.button
-                key={locale}
-                onClick={() => handleLanguageChange(locale)}
-                className="w-full px-2 py-2 text-left cursor-pointer relative group disabled:cursor-default disabled:opacity-50"
-                disabled={locale === currentLocale}
-                whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
-                transition={{ duration: 0.15 }}
-              >
-                <span className="font-mono text-sm leading-4 tracking-normal uppercase">
-                  {languageLabels[locale]}
-                </span>
-              </motion.button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+            <span className="font-mono text-sm leading-4 tracking-normal uppercase">
+              {languageLabels[locale]}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
