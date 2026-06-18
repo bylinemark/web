@@ -1,11 +1,12 @@
+import Navigation from "@/app/components/ui/navigation/navigation";
+import { locales } from "@/i18n/config";
 import type { Metadata } from "next";
-import { Noto_Sans, Noto_Sans_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { ViewTransitions } from "next-view-transitions";
+import { Noto_Sans, Noto_Sans_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import { locales } from "@/i18n/config";
 import "../globals.css";
-import Navigation from "@/app/components/ui/navigation/navigation";
 
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
@@ -44,13 +45,15 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${notoSans.variable} ${notoSansMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider messages={messages}>
-            <Navigation locale={locale} />
-            {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang={locale} className={`${notoSans.variable} ${notoSansMono.variable} h-full antialiased`}>
+        <body className="min-h-full flex flex-col">
+          <NextIntlClientProvider messages={messages}>
+                <Navigation locale={locale} />
+                {children}
+          </NextIntlClientProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

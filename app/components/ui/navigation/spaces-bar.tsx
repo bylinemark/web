@@ -15,7 +15,7 @@ export default function SpacesBar () {
     }, [isHovered]);
 
     return (
-        <div className="fixed flex space-x-4 items-center justify-center top-4 right-4 z-40" >
+        <div className="fixed flex space-x-4 items-center justify-center top-4 right-4 z-50" >
             <div
                 className="relative"
                 onMouseEnter={() => setIsHovered(true)}

@@ -1,7 +1,11 @@
+"use client";
+
+import ReactLenis from "@studio-freight/react-lenis";
+
 export default function AboutPage() {
   return (
-    <main>
-      <div className="h-200">
+    <ReactLenis root>
+      <div className="h-screen bg-gray-800">
         <div className="container h-full flex items-center justify-center">
           <div>
             <h1 className="text-5xl font-bold text-white mb-4">Lorem ipsum dolor sit</h1>
@@ -9,7 +13,6 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-      <div className="h-screen"></div>
-    </main>
+    </ReactLenis>
   );
 }

@@ -1,17 +1,12 @@
-import { ContactForm } from "@/app/components/ui/contact/contact-form";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-export default async function Home({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const t = await getTranslations();
+import ReactLenis from "@studio-freight/react-lenis";
+
+export default function Home() {
 
   return (
-    <main>
-      <div className="h-200">
+    <ReactLenis root>
+      <div className="h-screen">
         <div className="container h-full flex items-center justify-center">
           <div>
             <h1 className="text-5xl font-bold text-white mb-4">Lorem ipsum dolor sit</h1>
@@ -19,12 +14,6 @@ export default async function Home({
           </div>
         </div>
       </div>
-      <div className="h-screen flex items-center justify-center p-4">
-        <div className="w-full max-w-2xl">
-          <h2 className="text-3xl font-bold mb-8 text-center">{t("contact.title")}</h2>
-          <ContactForm />
-        </div>
-      </div>
-    </main>
+    </ReactLenis>
   );
 }

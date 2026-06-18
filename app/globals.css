@@ -24,3 +24,40 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none !important;
+}
+
+::view-transition-group(nav-bar) {
+  z-index: 100;
+}
+
+::view-transition-old(nav-bar) {
+  display: none;
+}
+::view-transition-new(nav-bar) {
+  animation: none;
+  opacity: 1;
+}
+
+::view-transition-group(root) {
+  z-index: auto !important;
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+  will-change: transform, opacity, clip-path;
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 40;
+  animation: none !important;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  animation: none !important;
+}

@@ -40,7 +40,9 @@ export function LanguageSwitcherCustom() {
   };
 
   const handleLanguageChange = (newLocale: Locale) => {
-    const pathWithoutLocale = pathname.split('/').slice(2).join('/');
+    const parts = pathname.split('/').filter(Boolean);
+    const hasLocalePrefix = (locales as readonly string[]).includes(parts[0]);
+    const pathWithoutLocale = (hasLocalePrefix ? parts.slice(1) : parts).join('/');
     router.push(`/${newLocale}/${pathWithoutLocale}`);
   };
 
