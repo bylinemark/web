@@ -30,16 +30,8 @@ body {
   animation: none !important;
 }
 
-::view-transition-group(nav-bar) {
+::view-transition-group(navigation) {
   z-index: 100;
-}
-
-::view-transition-old(nav-bar) {
-  display: none;
-}
-::view-transition-new(nav-bar) {
-  animation: none;
-  opacity: 1;
 }
 
 ::view-transition-group(root) {
@@ -61,3 +53,4 @@ body {
   z-index: 1;
   animation: none !important;
 }
+

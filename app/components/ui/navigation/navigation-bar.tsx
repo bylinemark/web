@@ -9,7 +9,7 @@ export default function NavigationBar() {
 
   return (
     <div>
-      <div className="fixed top-4 left-4 z-50">
+      <div className="fixed top-4 left-4 z-50" style={{ viewTransitionName: "nav-bar" }}>
         <div className="h-14 w-auto rounded-sm">
           <div className="flex items-center justify-between h-full w-full space-x-4">
             <div className="flex items-center justify-center px-2 w-auto">

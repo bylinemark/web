@@ -12,22 +12,37 @@ let overlayEl: HTMLDivElement | null = null;
 const DURATION = 0.75;
 const EASE = "cubic-bezier(0.87, 0, 0.13, 1)";
 
-const HIDDEN = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
+const HIDDEN  = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
 const COVERED = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
-const GONE = "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)";
+const GONE    = "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)";
 
 export function navigate(href: string, router: ReturnType<typeof useRouter>) {
+  const content = document.getElementById("page-content");
+
   if (!overlayEl) {
     router.push(href);
     return;
   }
 
-  gsap.to(overlayEl, {
+  const tl = gsap.timeline({
+    onComplete: () => router.push(href),
+  });
+
+  // Old page slides up + fades while overlay rises from the bottom — simultaneously.
+  if (content) {
+    tl.to(content, {
+      y: "-35%",
+      opacity: 0.2,
+      duration: DURATION,
+      ease: EASE,
+    }, 0);
+  }
+
+  tl.to(overlayEl, {
     clipPath: COVERED,
     duration: DURATION,
     ease: EASE,
-    onComplete: () => router.push(href),
-  });
+  }, 0);
 }
 
 export function PageTransitionOverlay() {
@@ -48,7 +63,13 @@ export function PageTransitionOverlay() {
       return;
     }
 
-    // New page has mounted — pull the overlay off the top.
+    // New page has mounted. Reset the content div instantly (it's hidden behind
+    // the overlay), then collapse the overlay upward to reveal from bottom to top.
+    const content = document.getElementById("page-content");
+    if (content) {
+      gsap.set(content, { y: 0, opacity: 1 });
+    }
+
     gsap.to(ref.current, {
       clipPath: GONE,
       duration: DURATION,

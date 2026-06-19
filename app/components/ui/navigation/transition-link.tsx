@@ -1,9 +1,9 @@
 "use client";
 
+import { locales } from "@/i18n/config";
 import { usePathname } from "next/navigation";
 import { useTransitionRouter } from "next-view-transitions";
 import Link from "next/link";
-import { locales } from "@/i18n/config";
 
 interface TransitionLinkProps {
   href: string;
