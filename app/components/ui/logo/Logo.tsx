@@ -8,6 +8,8 @@ const SIZE_MAP: Record<string, SizeConfig> = {
   sm: { width: 64, height: 13 },
   md: { width: 107, height: 22 },
   lg: { width: 128, height: 26 },
+  max: { width: "100%", height: "auto" },
+  hero: { width: "100%", height: "auto" },
 };
 
 const getSizeConfig = (size?: LogoProps['size']): SizeConfig => {
@@ -28,6 +30,10 @@ export default function Logo({
   const sizeConfig = getSizeConfig(size);
   const containerRef = useRef<SVGSVGElement>(null);
 
+  const heroStyle = size === "hero"
+    ? { width: "clamp(18rem, 80vw, 120rem)", height: "auto" }
+    : undefined;
+
   return (
     <svg
       ref={containerRef}
@@ -35,6 +41,7 @@ export default function Logo({
       viewBox="0 0 288 58.94"
       width={sizeConfig.width}
       height={sizeConfig.height}
+      style={heroStyle}
       className={`overflow-hidden ${className}`}
     >
       <g id="logo-v1">

@@ -1,8 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --site-max-width: 120rem;
+
+  /* Type scale — fluid from 375px to 2560px */
+  --t-hero: clamp(3.5rem, 9vw, 10rem); /* 56 → 160px */
+  --t-display: clamp(2.5rem, 6vw, 7rem); /* 40 → 112px */
+  --t-h1: clamp(1.875rem, 4vw, 4.5rem); /* 30 → 72px  */
+  --t-h2: clamp(1.375rem, 2.5vw, 2.75rem); /* 22 → 44px  */
+  --t-h3: clamp(1.125rem, 1.75vw, 1.875rem); /* 18 → 30px */
+  --t-body: clamp(0.9375rem, 1vw, 1.0625rem); /* 15 → 17px */
+  --t-small: clamp(0.8125rem, 0.85vw, 0.9375rem); /* 13 → 15px */
+  --t-label: clamp(0.6875rem, 0.7vw, 0.8125rem); /* 11 → 13px */
 }
 
 @theme inline {
@@ -12,26 +23,17 @@
   --font-mono: var(--font-noto-sans-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: 1.6;
 }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none !important;
-}
-
-::view-transition-group(navigation) {
-  z-index: 100;
 }
 
 ::view-transition-group(root) {
@@ -54,3 +56,141 @@ body {
   animation: none !important;
 }
 
+::view-transition-group(site-navigation) {
+  animation: none !important;
+  mix-blend-mode: difference !important;
+}
+
+::view-transition-image-pair(site-navigation) {
+  isolation: auto !important;
+  mix-blend-mode: normal !important;
+}
+
+::view-transition-old(site-navigation) {
+  animation: none !important;
+  opacity: 0 !important;
+  display: none !important;
+}
+
+::view-transition-new(site-navigation) {
+  animation: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+.site-max {
+  width: min(calc(100% - clamp(2.5rem, 8%, 10rem)), var(--site-max-width));
+  margin-inline: auto;
+}
+
+/* ── Typography ────────────────────────────── */
+
+.t-hero {
+  font-size: var(--t-hero);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+
+.t-display {
+  font-size: var(--t-display);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.t-h1 {
+  font-size: var(--t-h1);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 400;
+}
+
+.t-h2 {
+  font-size: var(--t-h2);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.t-h3 {
+  font-size: var(--t-h3);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+}
+
+.t-body {
+  font-size: var(--t-body);
+  line-height: 1.6;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.t-small {
+  font-size: var(--t-small);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+.t-label {
+  font-size: var(--t-label);
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ── Underline animation ────────────────────── */
+
+.xline-double {
+  display: inline-flex;
+  position: relative;
+  white-space: nowrap;
+  --bottom: -0.5em;
+}
+
+.xline-double::after,
+.xline-double::before {
+  background-color: var(--foreground);
+  bottom: var(--bottom);
+  content: "";
+  height: 1px;
+  left: 0;
+  min-height: 1px;
+  position: absolute;
+  right: 0;
+}
+
+.xline-double:before {
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.55s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  transition-delay: 0.5s;
+}
+
+.xline-double:after {
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.55s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  transition-delay: 0s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .xline-double:hover:before {
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.55s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    transition-delay: 0s;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .xline-double:hover:after {
+    transform: scaleX(1);
+    transform-origin: left;
+    transition: transform 0.55s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    transition-delay: 0.2s;
+  }
+}

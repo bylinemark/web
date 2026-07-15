@@ -5,11 +5,10 @@ import ReactLenis from "@studio-freight/react-lenis";
 export default function AboutPage() {
   return (
     <ReactLenis root>
-      <div className="h-screen bg-white">
-        <div className="container h-full flex items-center justify-center">
+      <div className="h-screen">
+        <div className="site-max h-full">
           <div>
-            <h1 className="text-5xl font-bold text-black mb-4">Lorem ipsum dolor sit</h1>
-            <p className="text-xl text-gray-600 mb-12">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse aspernatur enim quos.</p>
+            <h1 className="text-7xl font-bold mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse aspernatur enim quos.</h1>
           </div>
         </div>
       </div>

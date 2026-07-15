@@ -2,11 +2,12 @@
   "navigation": {
     "work": "Work",
     "about": "About",
-    "contact": "Contacting me is cool"
+    "contact": "Contact"
   },
   "hero": {
-    "title": "Welcome to Linemark",
-    "subtitle": "Collaborations Studio"
+    "title": "We shape digital experiences for ambitious brands.",
+    "alt": "(Scroll)",
+    "cta": "Learn more about our approach"
   },
   "contact": {
     "title": "Get in Touch",

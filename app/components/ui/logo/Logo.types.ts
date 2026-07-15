@@ -1,4 +1,4 @@
-export type LogoSize = 'sm' | 'md' | 'lg' | 'navigation' | number | string;
+export type LogoSize = "sm" | "md" | "lg" | "base" | "hero" | "max" | number | string;
 
 export interface LogoProps {
   size?: LogoSize;
@@ -6,6 +6,6 @@ export interface LogoProps {
 }
 
 export interface SizeConfig {
-  width: number;
-  height: number;
+  width: number | string;
+  height: number | string;
 }

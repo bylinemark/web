@@ -64,7 +64,7 @@ export function LanguageSwitcherCustom() {
   // Hover overlay animation
   useEffect(() => {
     if (!overlayRef.current) return;
-    gsap.to(overlayRef.current, { opacity: isHovered ? 1 : 0, duration: 0.15, ease: 'none' });
+    gsap.to(overlayRef.current, { opacity: isHovered ? 1 : 0.5, duration: 0.15, ease: 'none' });
   }, [isHovered]);
 
   // Dropdown enter/exit animation
@@ -92,7 +92,7 @@ export function LanguageSwitcherCustom() {
   return (
     <div
       ref={containerRef}
-      className="relative"
+      className="relative hidden sm:block"
       onMouseEnter={() => {
         setIsHovered(true);
         setIsOpen(true);
@@ -102,40 +102,38 @@ export function LanguageSwitcherCustom() {
         setIsOpen(false);
       }}
     >
+      {/* Hover overlay first in DOM — sits below button in paint order, no negative z-index needed */}
+      <div
+        ref={overlayRef}
+        className="absolute inset-0 rounded-sm bg-white/15 pointer-events-none"
+        style={{ opacity: 0 }}
+      />
+
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="h-14 w-auto rounded-sm cursor-pointer"
+        className="relative h-14 w-auto rounded-sm cursor-pointer"
       >
         <span className="flex items-center justify-center gap-x-2 px-6 h-full w-full">
-          <span className="block">
-            <span className="font-mono text-sm leading-4 tracking-normal uppercase relative">
-              {languageCodes[currentLocale]}
-            </span>
+          <span className="t-label font-mono">
+            {languageCodes[currentLocale]}
           </span>
         </span>
       </button>
 
-      {/* Hover overlay */}
-      <div
-        ref={overlayRef}
-        className="absolute top-0 left-0 -z-1 h-full w-full rounded-sm bg-white/5 pointer-events-none"
-        style={{ opacity: 0 }}
-      />
-
-      {/* Dropdown */}
+      {/* Dropdown — same glass layer as the hover overlay */}
       <div
         ref={dropdownRef}
-        className="absolute top-full right-0 mt-2 w-full min-w-max rounded-sm bg-white/5 p-2 overflow-hidden z-50"
+        className="absolute top-full right-0 mt-2 w-full min-w-max rounded-sm bg-white/15 p-2 z-50"
         style={{ display: 'none', opacity: 0 }}
       >
         {locales.map((locale) => (
           <button
             key={locale}
             onClick={() => handleLanguageChange(locale)}
-            className="w-full px-2 py-2 text-left cursor-pointer relative group disabled:cursor-default disabled:opacity-50 hover:bg-white/5 transition-colors duration-150"
+            className="w-full px-2 py-2 text-left cursor-pointer disabled:cursor-default disabled:opacity-50 hover:bg-white/5 transition-colors duration-150"
             disabled={locale === currentLocale}
           >
-            <span className="font-mono text-sm leading-4 tracking-normal uppercase">
+            <span className="t-label font-mono">
               {languageLabels[locale]}
             </span>
           </button>
